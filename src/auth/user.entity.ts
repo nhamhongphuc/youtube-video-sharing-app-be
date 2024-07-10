@@ -12,6 +12,6 @@ export class User {
   @Column()
   password: string;
 
-  @OneToMany(() => Video, (video) => video.user)
+  @OneToMany((_type) => Video, (video) => video.user, { eager: true })
   videos: Video[];
 }

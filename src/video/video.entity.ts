@@ -1,4 +1,5 @@
-import { User } from 'src/auth/user.entity';
+import { Exclude } from 'class-transformer';
+import { User } from '../auth/user.entity';
 import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
@@ -6,7 +7,7 @@ export class Video {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column({ unique: true })
+  @Column()
   URL: string;
 
   @Column()
@@ -15,6 +16,10 @@ export class Video {
   @Column()
   description: string;
 
-  @ManyToOne(() => User, (user) => user.videos)
+  @Column()
+  thumbnail: string;
+
+  @ManyToOne((_type) => User, (user) => user.videos, { eager: false })
+  @Exclude({ toPlainOnly: true })
   user: User;
 }
