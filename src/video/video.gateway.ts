@@ -15,7 +15,6 @@ export class VideoGateway {
 
   @SubscribeMessage('videoShared')
   notifyVideoShared(videoTitle: string, userName: string) {
-    // const message = `${userName} shared a new video: ${videoTitle}`;
     this.server.emit('videoShared', { userName, videoTitle });
   }
 }

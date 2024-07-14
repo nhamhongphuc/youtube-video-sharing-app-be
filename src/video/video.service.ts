@@ -4,7 +4,7 @@ import { ConfigService } from '@nestjs/config';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Video } from './video.entity';
 import { ShareVideoPayloadDto } from './dto/video-payload.dto';
-import { User } from 'src/auth/user.entity';
+import { User } from '../auth/user.entity';
 import { google } from 'googleapis';
 import { VideoGateway } from './video.gateway';
 

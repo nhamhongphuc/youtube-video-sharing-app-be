@@ -3,7 +3,7 @@ import { VideoService } from './video.service';
 import { Video } from './video.entity';
 import { ShareVideoPayloadDto } from './dto/video-payload.dto';
 import { GetUser } from '../auth/get-user.decorator';
-import { User } from 'src/auth/user.entity';
+import { User } from '../auth/user.entity';
 import { AuthGuard } from '@nestjs/passport';
 
 @Controller('videos')
