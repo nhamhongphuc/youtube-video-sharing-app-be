@@ -7,6 +7,7 @@ import { Video } from './video.entity';
 import { AuthModule } from 'src/auth/auth.module';
 import { ConfigModule } from '@nestjs/config';
 import { configValidationSchema } from 'src/config.schema';
+import { VideoGateway } from './video.gateway';
 
 @Module({
   imports: [
@@ -17,7 +18,7 @@ import { configValidationSchema } from 'src/config.schema';
     TypeOrmModule.forFeature([VideoRepository, Video]),
     AuthModule,
   ],
-  providers: [VideoService],
+  providers: [VideoService, VideoGateway],
   controllers: [VideoController],
   exports: [],
 })

@@ -6,6 +6,7 @@ import { Video } from './video.entity';
 import { ShareVideoPayloadDto } from './dto/video-payload.dto';
 import { User } from 'src/auth/user.entity';
 import { google } from 'googleapis';
+import { VideoGateway } from './video.gateway';
 
 @Injectable()
 export class VideoService {
@@ -13,26 +14,47 @@ export class VideoService {
     @InjectRepository(VideoRepository)
     private videoRepository: VideoRepository,
     private configService: ConfigService,
+    private videoGateway: VideoGateway,
   ) {}
   private youtube = google.youtube({
     version: 'v3',
     auth: this.configService.get('YTB_API_KEY'),
   });
   getVideos(): Promise<Video[]> {
-    return this.videoRepository.createQueryBuilder('video').getMany();
+    return this.videoRepository
+      .createQueryBuilder('video')
+      .innerJoin('video.user', 'user')
+      .select('video.title', 'title')
+      .addSelect('video.URL', 'URL')
+      .addSelect('video.description', 'description')
+      .addSelect('video.thumbnail', 'thumbnail')
+      .addSelect('video.createdAt', 'createdAt')
+      .addSelect('user.username', 'username')
+      .orderBy('video.createdAt', 'DESC')
+      .getRawMany();
   }
 
   async createVideo(video: ShareVideoPayloadDto, user: User): Promise<Video> {
     const videoID = this.extractVideoID(video.url);
     const videoInfo = await this.getYoutubeVideoInfo(videoID);
+
+    if (!videoInfo) {
+      throw new Error('Video not found');
+    }
+
     const videoObj: Video = this.videoRepository.create({
       title: videoInfo.title,
       URL: video.url,
       description: videoInfo.description,
       thumbnail: videoInfo.thumbnails,
       user,
+      createdAt: new Date(),
     });
-    return await this.videoRepository.save(videoObj);
+    const createdVideo = await this.videoRepository.save(videoObj);
+
+    this.videoGateway.notifyVideoShared(createdVideo.title, user.username);
+
+    return createdVideo;
   }
 
   private extractVideoID(url: string): string {
@@ -46,9 +68,12 @@ export class VideoService {
     videoID: string,
   ): Promise<{ title: string; description: string; thumbnails: string }> {
     const response = await this.youtube.videos.list({
-      id: [videoID], // Wrap videoID in an array
-      part: ['snippet'], // Ensure part is an array of strings
+      id: [videoID],
+      part: ['snippet'],
     });
+    if (!response.data.items.length) {
+      throw new Error('Video not found');
+    }
     const videoInfo = response.data.items[0].snippet;
 
     return {

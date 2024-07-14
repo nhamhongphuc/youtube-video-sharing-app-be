@@ -22,4 +22,7 @@ export class Video {
   @ManyToOne((_type) => User, (user) => user.videos, { eager: false })
   @Exclude({ toPlainOnly: true })
   user: User;
+
+  @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
+  createdAt: Date;
 }
