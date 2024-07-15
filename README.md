@@ -1,73 +1,99 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
-</p>
+# YouTube Video Sharing App
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+## Introduction
+This project is a web application for sharing YouTube videos. It demonstrates backend and frontend development skills, including user registration, video sharing, and real-time notifications. The app is built using NestJS for the backend and React with TypeScript for the frontend. The key features of the application include:
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+1. User registration and login
+2. Sharing YouTube videos
+3. Viewing a list of shared videos
+4. Real-time notifications for new video shares
 
-## Description
+## Prerequisites
+Before setting up the project, ensure you have the following software installed:
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+- **Node.js**: Version 14.17.0 or higher
+- **Yarn**: Version 1.22.10 or higher
+- **PostgreSQL**: Version 12 or higher
+- **Docker**: (optional, for Docker deployment)
 
-## Installation
+## Installation & Configuration
+Follow these steps to set up the project on your local machine:
 
-```bash
-$ yarn install
-```
+1. Clone the repository:
+    ```bash
+    git clone <repository-url>
+    cd <repository-directory>
+    ```
 
-## Running the app
+2.  Run PostgreSQL on Docker:
+    ```bash
+    docker run --name postgres-nest -p 5432:5432 -e POSTGRES_PASSWORD=postgres -d postgres
+    ```
 
-```bash
-# development
-$ yarn run start
+3. Install backend dependencies:
+    ```bash
+    cd backend
+    yarn install
+    ```
 
-# watch mode
-$ yarn run start:dev
+4. Install frontend dependencies:
+    ```bash
+    cd ../frontend
+    yarn install
+    ```
 
-# production mode
-$ yarn run start:prod
-```
+5. Configure environment variables:
+    - Copy `.env.stage.dev.template` to `.env.stage.dev` in backend and frontend directories
+    - Copy `.env.template` to `.env` in frontend directories
+    - Update the values in `.env.stage.dev` with your JWT_SECRET and YTB_API_KEY
 
-## Test
+## Running the Application
+Start the development server:
 
-```bash
-# unit tests
-$ yarn run test
+1. Start the NestJS server:
+    ```bash
+    cd backend
+    yarn start:dev
+    ```
 
-# e2e tests
-$ yarn run test:e2e
+2. Start the React dev server:
+    ```bash
+    cd ../frontend
+    yarn start
+    ```
 
-# test coverage
-$ yarn run test:cov
-```
+3. Access the application in your web browser at `http://localhost:3000`
 
-## Support
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+## Usage
+To use the application:
 
-## Stay in touch
+1. Register a new user account.
+2. Log in with your credentials.
+3. Share a YouTube video by pasting the video URL.
+4. View the list of shared videos.
+5. Receive real-time notifications when new videos are shared.
 
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+## Running Tests
+To run the test suite:
 
-## License
+1. Run backend tests:
+    ```bash
+    cd backend
+    yarn test
+    ```
 
-Nest is [MIT licensed](LICENSE).
+2. Run frontend tests:
+    ```bash
+    cd ../frontend
+    yarn test
+    ```
+
+## Troubleshooting
+Common issues and their solutions:
+
+- **Database connection error**: Ensure PostgreSQL is running and the credentials in `.env.stage.dev` are correct.
+- **Frontend issues**: Make sure Node.js and Yarn are installed correctly, and dependencies are up-to-date.
+
+
+By following this README, you should be able to set up and run the YouTube Video Sharing App successfully. Happy coding!
